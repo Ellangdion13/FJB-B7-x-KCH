@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B7 × Kalbe Marketplace — Pharma Industry Procurement</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+</head>
+<body class="light-mode">
+
+  <!-- ============================================================
+       TOPBAR
+  ============================================================ -->
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <div class="brand-logo" aria-label="B7 Kalbe Consumer Health">B7<br>KCH</div>
+      <div class="brand-text">
+        <span class="brand-title">B7 × Kalbe Marketplace</span>
+        <span class="brand-sub">Pharma Industry Procurement Platform</span>
+      </div>
+    </div>
+
+    <nav class="topbar-right" aria-label="Navigasi utama">
+      <button class="top-btn" id="btnPostIklan" aria-label="Buat posting iklan baru">
+        <i class="ti ti-plus" aria-hidden="true"></i>
+        Post Iklan
+      </button>
+      <button class="top-btn icon-btn" id="btnNotif" aria-label="Notifikasi">
+        <i class="ti ti-bell" aria-hidden="true"></i>
+        <span class="notif-dot" aria-hidden="true"></span>
+      </button>
+      <div class="mode-toggle" id="modeToggle" role="button" tabindex="0" aria-label="Toggle mode siang/malam">
+        <span class="mode-dot day" id="modeDay" aria-hidden="true"><i class="ti ti-sun"></i></span>
+        <span class="mode-dot night active" id="modeNight" aria-hidden="true"><i class="ti ti-moon"></i></span>
+      </div>
+      <div class="user-avatar" title="Akun Saya" aria-label="Akun pengguna AK">AK</div>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       MAIN
+  ============================================================ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- STATS ROW -->
+    <section class="stats-row" aria-label="Ringkasan statistik platform">
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="ti ti-tag" aria-hidden="true"></i></div>
+        <div class="stat-label">Total WTS</div>
+        <div class="stat-val green" id="statWTS">2.847</div>
+        <div class="stat-sub"><i class="ti ti-arrow-up" aria-hidden="true"></i> +12 hari ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="ti ti-shopping-cart" aria-hidden="true"></i></div>
+        <div class="stat-label">Total WTB</div>
+        <div class="stat-val blue" id="statWTB">1.204</div>
+        <div class="stat-sub"><i class="ti ti-arrow-up" aria-hidden="true"></i> +8 hari ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="ti ti-building" aria-hidden="true"></i></div>
+        <div class="stat-label">Vendor Aktif</div>
+        <div class="stat-val green" id="statVendor">348</div>
+        <div class="stat-sub">Terverifikasi industri</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="ti ti-check-circle" aria-hidden="true"></i></div>
+        <div class="stat-label">Transaksi / Bulan</div>
+        <div class="stat-val blue" id="statTrx">5.129</div>
+        <div class="stat-sub">Nilai: Rp 4,2M</div>
+      </div>
+    </section>
+
+    <!-- TAB BAR -->
+    <div class="tab-bar" role="tablist" aria-label="Pilih menu WTS atau WTB">
+      <button class="tab-btn active-wts" id="tabWTS" role="tab" aria-selected="true" aria-controls="secWTS" onclick="switchTab('wts')">
+        <i class="ti ti-tag" aria-hidden="true"></i>
+        Want To Sell (WTS)
+        <span class="tab-badge" id="badgeWTS">2.847</span>
+      </button>
+      <button class="tab-btn" id="tabWTB" role="tab" aria-selected="false" aria-controls="secWTB" onclick="switchTab('wtb')">
+        <i class="ti ti-shopping-cart" aria-hidden="true"></i>
+        Want To Buy (WTB)
+        <span class="tab-badge inactive-blue" id="badgeWTB">1.204</span>
+      </button>
+    </div>
+
+    <!-- SIDEBAR LAYOUT -->
+    <div class="sidebar-layout">
+
+      <!-- ======= CONTENT AREA ======= -->
+      <div class="content-area">
+
+        <!-- WTS SECTION -->
+        <section id="secWTS" class="page-section visible" role="tabpanel" aria-labelledby="tabWTS">
+          <div class="section-header">
+            <div class="section-title">
+              <i class="ti ti-package" aria-hidden="true"></i>
+              Produk &amp; Jasa Tersedia
+              <span class="pill green">Vendor Terverifikasi</span>
+            </div>
+          </div>
+
+          <div class="filter-bar" role="search">
+            <div class="search-box">
+              <i class="ti ti-search" aria-hidden="true"></i>
+              <input type="search" id="searchWTS" placeholder="Cari produk, vendor, kategori..." aria-label="Cari produk atau vendor WTS" />
+            </div>
+            <button class="filter-chip active" data-tab="wts" onclick="setFilter(this, 'wts')">Semua</button>
+            <button class="filter-chip" data-tab="wts" onclick="setFilter(this, 'wts')">Bahan Baku</button>
+            <button class="filter-chip" data-tab="wts" onclick="setFilter(this, 'wts')">Kemasan</button>
+            <button class="filter-chip" data-tab="wts" onclick="setFilter(this, 'wts')">Jasa Lab</button>
+            <button class="filter-chip" data-tab="wts" onclick="setFilter(this, 'wts')">Distribusi</button>
+          </div>
+
+          <div class="cards-grid" id="gridWTS" role="list">
+
+            <article class="product-card" role="listitem" data-category="Bahan Baku API">
+              <div class="card-img green-bg">
+                <i class="ti ti-flask" aria-hidden="true"></i>
+                <span class="card-badge badge-verified">Verified</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Bahan Baku API</div>
+                <h3 class="card-title">Paracetamol USP Grade — Bulk Supply</h3>
+                <p class="card-desc">Suplai rutin paracetamol grade farmasi, sertifikat CoA tersedia, MOQ 500kg, pengiriman ke seluruh Indonesia.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Rp 45.000/kg</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">PT</span>
+                      PT Farma Prima
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('PT Farma Prima', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Kemasan">
+              <div class="card-img blue-bg">
+                <i class="ti ti-box" aria-hidden="true"></i>
+                <span class="card-badge badge-wts">WTS</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat blue">Kemasan Primer</div>
+                <h3 class="card-title">Blister PVC/PVDC — Custom Print</h3>
+                <p class="card-desc">Kemasan blister pharma grade dengan print custom, GMP certified, lead time 3–5 hari kerja.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price blue">Rp 180/pcs</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot blue">KP</span>
+                      Kemindo Packaging
+                    </div>
+                  </div>
+                  <button class="contact-btn blue" onclick="handleContact('Kemindo Packaging', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa Lab">
+              <div class="card-img green-bg">
+                <i class="ti ti-microscope" aria-hidden="true"></i>
+                <span class="card-badge badge-verified">Verified</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Jasa Analitik</div>
+                <h3 class="card-title">Pengujian HPLC &amp; Stability Test</h3>
+                <p class="card-desc">Layanan full analitik: HPLC, GC-MS, stability testing ICH Q1A, laporan resmi BPOM-ready.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Rp 2,5Jt/sampel</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">LA</span>
+                      LabAnalitik Indo
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('LabAnalitik Indo', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Distribusi">
+              <div class="card-img green-bg">
+                <i class="ti ti-temperature" aria-hidden="true"></i>
+                <span class="card-badge badge-wts">WTS</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Cold Chain</div>
+                <h3 class="card-title">Cold Storage &amp; Distribusi 2–8°C</h3>
+                <p class="card-desc">Layanan cold chain end-to-end, GDP certified, monitoring suhu real-time, coverage Jawa–Bali.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Rp 15.000/kg/km</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">CS</span>
+                      ColdSafe Logistik
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('ColdSafe Logistik', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Bahan Baku API">
+              <div class="card-img blue-bg">
+                <i class="ti ti-pill" aria-hidden="true"></i>
+                <span class="card-badge badge-wts">WTS</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat blue">Excipient</div>
+                <h3 class="card-title">Microcrystalline Cellulose PH-102</h3>
+                <p class="card-desc">MCC pharma grade untuk tablet compression, sertifikat NF/Ph.Eur, stock ready 10 ton.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price blue">Rp 32.000/kg</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot blue">EX</span>
+                      ExciPharm ID
+                    </div>
+                  </div>
+                  <button class="contact-btn blue" onclick="handleContact('ExciPharm ID', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa Lab">
+              <div class="card-img green-bg">
+                <i class="ti ti-certificate" aria-hidden="true"></i>
+                <span class="card-badge badge-verified">Verified</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Konsultasi Regulasi</div>
+                <h3 class="card-title">Jasa Konsultasi BPOM &amp; NIE</h3>
+                <p class="card-desc">Pendampingan registrasi BPOM, pengurusan NIE, post-market surveillance, variasi izin edar.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Rp 5Jt/project</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">RG</span>
+                      Regula Konsultan
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('Regula Konsultan', 'WTS')">
+                    <i class="ti ti-message-circle" aria-hidden="true"></i> Hubungi
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div><!-- /gridWTS -->
+        </section>
+
+        <!-- WTB SECTION -->
+        <section id="secWTB" class="page-section" role="tabpanel" aria-labelledby="tabWTB">
+          <div class="section-header">
+            <div class="section-title">
+              <i class="ti ti-search" aria-hidden="true"></i>
+              Permintaan Pembelian
+              <span class="pill blue">Buyer Terverifikasi</span>
+            </div>
+          </div>
+
+          <div class="filter-bar" role="search">
+            <div class="search-box">
+              <i class="ti ti-search" aria-hidden="true"></i>
+              <input type="search" id="searchWTB" placeholder="Cari permintaan, kategori..." aria-label="Cari permintaan WTB" />
+            </div>
+            <button class="filter-chip active-blue" data-tab="wtb" onclick="setFilter(this, 'wtb')">Semua</button>
+            <button class="filter-chip" data-tab="wtb" onclick="setFilter(this, 'wtb')">Mendesak</button>
+            <button class="filter-chip" data-tab="wtb" onclick="setFilter(this, 'wtb')">Bahan Baku</button>
+            <button class="filter-chip" data-tab="wtb" onclick="setFilter(this, 'wtb')">Jasa</button>
+            <button class="filter-chip" data-tab="wtb" onclick="setFilter(this, 'wtb')">Peralatan</button>
+          </div>
+
+          <div class="cards-grid" id="gridWTB" role="list">
+
+            <article class="product-card" role="listitem" data-category="Bahan Baku">
+              <div class="card-img blue-bg">
+                <i class="ti ti-droplet" aria-hidden="true"></i>
+                <span class="card-badge badge-urgent">Mendesak</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat blue">Bahan Baku</div>
+                <h3 class="card-title">Dicari: Ibuprofen BP — 1 Ton</h3>
+                <p class="card-desc">Butuh ibuprofen BP grade 1000kg, CoA required, pengiriman maks 14 hari. Budget tersedia, nego bisa.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price blue">Budget: ± Rp 80Jt</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot blue">B7</span>
+                      Bintang Toedjoe
+                    </div>
+                  </div>
+                  <button class="contact-btn blue" onclick="handleContact('Bintang Toedjoe', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa">
+              <div class="card-img green-bg">
+                <i class="ti ti-tool" aria-hidden="true"></i>
+                <span class="card-badge badge-wtb">WTB</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Jasa Kalibrasi</div>
+                <h3 class="card-title">Kalibrasi Alat Lab — HPLC &amp; Timbangan</h3>
+                <p class="card-desc">Butuh jasa kalibrasi HPLC 3 unit + timbangan analitik 5 unit, sertifikat KAN diutamakan.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Budget: Rp 15Jt</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">KH</span>
+                      Kalbe Consumer
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('Kalbe Consumer', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa">
+              <div class="card-img blue-bg">
+                <i class="ti ti-truck" aria-hidden="true"></i>
+                <span class="card-badge badge-wtb">WTB</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat blue">Distribusi</div>
+                <h3 class="card-title">Vendor Distribusi Reguler — Kalimantan</h3>
+                <p class="card-desc">Mencari partner distribusi GDP certified untuk coverage Kalimantan, volume 50 ton/bulan, kontrak 1 tahun.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price blue">Nego Kontrak</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot blue">B7</span>
+                      Bintang Toedjoe
+                    </div>
+                  </div>
+                  <button class="contact-btn blue" onclick="handleContact('Bintang Toedjoe', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Bahan Baku">
+              <div class="card-img green-bg">
+                <i class="ti ti-archive" aria-hidden="true"></i>
+                <span class="card-badge badge-urgent">Mendesak</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Kemasan</div>
+                <h3 class="card-title">Botol PET 100ml — 50.000 Pcs</h3>
+                <p class="card-desc">Kebutuhan mendesak botol PET 100ml tutup ulir, food-grade, ready stock diutamakan, kirim Jabodetabek.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Budget: Rp 35Jt</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">KH</span>
+                      Kalbe Consumer
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('Kalbe Consumer', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa">
+              <div class="card-img blue-bg">
+                <i class="ti ti-virus" aria-hidden="true"></i>
+                <span class="card-badge badge-wtb">WTB</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat blue">QC Material</div>
+                <h3 class="card-title">Reference Standard Paracetamol EP</h3>
+                <p class="card-desc">Butuh reference standard paracetamol European Pharmacopoeia, 1g, untuk internal QC release testing.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price blue">Budget: Rp 8Jt</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot blue">B7</span>
+                      Bintang Toedjoe
+                    </div>
+                  </div>
+                  <button class="contact-btn blue" onclick="handleContact('Bintang Toedjoe', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" role="listitem" data-category="Jasa">
+              <div class="card-img green-bg">
+                <i class="ti ti-building-factory" aria-hidden="true"></i>
+                <span class="card-badge badge-wtb">WTB</span>
+              </div>
+              <div class="card-body">
+                <div class="card-cat green">Jasa Maklon</div>
+                <h3 class="card-title">Maklon Tablet Salut Selaput — 5Jt Tab</h3>
+                <p class="card-desc">Cari CMO untuk produksi tablet salut selaput 5 juta tablet/batch, GMP certified, kapasitas segera.</p>
+                <div class="card-footer">
+                  <div>
+                    <div class="card-price green">Rp 120/tablet</div>
+                    <div class="card-vendor">
+                      <span class="vendor-dot green">KH</span>
+                      Kalbe Consumer
+                    </div>
+                  </div>
+                  <button class="contact-btn green" onclick="handleContact('Kalbe Consumer', 'WTB')">
+                    <i class="ti ti-send" aria-hidden="true"></i> Tawar
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div><!-- /gridWTB -->
+        </section>
+
+      </div><!-- /content-area -->
+
+      <!-- ======= SIDEBAR ======= -->
+      <aside class="sidebar" aria-label="Sidebar filter dan info">
+
+        <div class="sidebar-widget">
+          <div class="sw-title">
+            <i class="ti ti-category" aria-hidden="true"></i> Kategori
+          </div>
+          <ul class="cat-list" role="list">
+            <li class="cat-item selected" role="listitem" onclick="selectCategory(this)">
+              <span>Semua Kategori</span><span class="cat-count">4.051</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Bahan Baku API</span><span class="cat-count">812</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Excipient &amp; Zat Tambahan</span><span class="cat-count">634</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Kemasan Primer/Sekunder</span><span class="cat-count">487</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Jasa Lab &amp; Analitik</span><span class="cat-count">321</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Cold Chain &amp; Logistik</span><span class="cat-count">284</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Regulasi &amp; Konsultasi</span><span class="cat-count">198</span>
+            </li>
+            <li class="cat-item" role="listitem" onclick="selectCategory(this)">
+              <span>Maklon &amp; CMO</span><span class="cat-count">145</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sw-title">
+            <i class="ti ti-trending-up" aria-hidden="true"></i> Trending Pencarian
+          </div>
+          <ul class="trending-list" role="list">
+            <li class="trend-item" role="listitem">
+              <span class="trend-rank">1</span>
+              <span class="trend-text">Paracetamol BP/USP</span>
+              <span class="trend-num">284</span>
+            </li>
+            <li class="trend-item" role="listitem">
+              <span class="trend-rank">2</span>
+              <span class="trend-text">Blister packaging</span>
+              <span class="trend-num">201</span>
+            </li>
+            <li class="trend-item" role="listitem">
+              <span class="trend-rank">3</span>
+              <span class="trend-text">Jasa HPLC testing</span>
+              <span class="trend-num">178</span>
+            </li>
+            <li class="trend-item" role="listitem">
+              <span class="trend-rank">4</span>
+              <span class="trend-text">Cold chain 2–8°C</span>
+              <span class="trend-num">143</span>
+            </li>
+            <li class="trend-item" role="listitem">
+              <span class="trend-rank">5</span>
+              <span class="trend-text">MCC PH-102</span>
+              <span class="trend-num">122</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sw-title">
+            <i class="ti ti-shield-check" aria-hidden="true"></i> Status Platform
+          </div>
+          <ul class="status-list" role="list">
+            <li><span>Vendor Aktif</span><span class="status-val green">348 online</span></li>
+            <li><span>Iklan Live</span><span class="status-val blue">4.051 listing</span></li>
+            <li><span>Response Rate</span><span class="status-val green">94% &lt; 2 jam</span></li>
+            <li><span>Verifikasi GMP</span><span class="status-val blue">100% vendor</span></li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div><!-- /sidebar-layout -->
+
+  </main>
+
+  <!-- ============================================================
+       MODAL — Post Iklan
+  ============================================================ -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modalTitle"><i class="ti ti-plus" aria-hidden="true"></i> Buat Posting Baru</h2>
+        <button class="modal-close" id="modalClose" aria-label="Tutup modal">&times;</button>
+      </div>
+
+      <div class="modal-tab-bar">
+        <button class="modal-tab active" id="modalTabWTS" onclick="switchModalTab('wts')">
+          <i class="ti ti-tag" aria-hidden="true"></i> Want To Sell
+        </button>
+        <button class="modal-tab" id="modalTabWTB" onclick="switchModalTab('wtb')">
+          <i class="ti ti-shopping-cart" aria-hidden="true"></i> Want To Buy
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-row">
+          <label for="postJudul">Judul Iklan</label>
+          <input type="text" id="postJudul" placeholder="Contoh: Paracetamol USP Grade — Bulk 500kg" />
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="postKategori">Kategori</label>
+            <select id="postKategori">
+              <option value="">Pilih kategori</option>
+              <option>Bahan Baku API</option>
+              <option>Excipient &amp; Zat Tambahan</option>
+              <option>Kemasan Primer/Sekunder</option>
+              <option>Jasa Lab &amp; Analitik</option>
+              <option>Cold Chain &amp; Logistik</option>
+              <option>Regulasi &amp; Konsultasi</option>
+              <option>Maklon &amp; CMO</option>
+            </select>
+          </div>
+          <div>
+            <label for="postHarga">Harga / Budget</label>
+            <input type="text" id="postHarga" placeholder="Contoh: Rp 45.000/kg" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="postDeskripsi">Deskripsi</label>
+          <textarea id="postDeskripsi" rows="4" placeholder="Jelaskan detail produk/jasa, spesifikasi, MOQ, syarat, dll."></textarea>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="postPerusahaan">Nama Perusahaan</label>
+            <input type="text" id="postPerusahaan" placeholder="PT / CV / nama usaha" />
+          </div>
+          <div>
+            <label for="postKontak">Kontak (WA/Email)</label>
+            <input type="text" id="postKontak" placeholder="+62 atau email@domain.com" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal()">Batal</button>
+          <button class="btn-submit" id="btnSubmit" onclick="submitPost()">
+            <i class="ti ti-send" aria-hidden="true"></i> Publikasikan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
